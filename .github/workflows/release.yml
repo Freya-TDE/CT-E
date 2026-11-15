@@ -59,14 +59,16 @@ jobs:
         shell: msys2 {0}
     steps:
       - uses: actions/checkout@v7
-      - name: RUF-Stand aus Cargo.lock
+      # Die Bundle-Skripte (tools/) liegen nicht im crates.io-Paket: aus dem
+      # RUF-Repository zum Tag der verwendeten Version (v<Version> aus Cargo.lock).
+      - name: RUF-Version aus Cargo.lock
         id: ruf
         shell: bash
-        run: echo "rev=$(grep -m1 -o 'Freya-TDE/RUF#[0-9a-f]*' Cargo.lock | cut -d'#' -f2)" >> "$GITHUB_OUTPUT"
+        run: echo "tag=v$(grep -A1 '^name = "ruf"$' Cargo.lock | sed -n 's/^version = "\(.*\)"$/\1/p')" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v7
         with:
           repository: Freya-TDE/RUF
-          ref: ${{ steps.ruf.outputs.rev }}
+          ref: ${{ steps.ruf.outputs.tag }}
           path: ruf
       # Rust mit GNU-Host (passt zu MSYS2; das MSVC-Rust würde für das GNU-Ziel
       # cross-kompilieren, und pkg-config der GTK-Crates verweigert das).
@@ -105,13 +107,15 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v7
-      - name: RUF-Stand aus Cargo.lock
+      # Die Bundle-Skripte (tools/) liegen nicht im crates.io-Paket: aus dem
+      # RUF-Repository zum Tag der verwendeten Version (v<Version> aus Cargo.lock).
+      - name: RUF-Version aus Cargo.lock
         id: ruf
-        run: echo "rev=$(grep -m1 -o 'Freya-TDE/RUF#[0-9a-f]*' Cargo.lock | cut -d'#' -f2)" >> "$GITHUB_OUTPUT"
+        run: echo "tag=v$(grep -A1 '^name = "ruf"$' Cargo.lock | sed -n 's/^version = "\(.*\)"$/\1/p')" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v7
         with:
           repository: Freya-TDE/RUF
-          ref: ${{ steps.ruf.outputs.rev }}
+          ref: ${{ steps.ruf.outputs.tag }}
           path: ruf
       - name: GTK 4 und Werkzeuge
         run: brew install gtk4 gtksourceview5 adwaita-icon-theme dylibbundler

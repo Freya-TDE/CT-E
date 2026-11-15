@@ -181,8 +181,9 @@ language permanently, put the file into `locales/` and register it in `src/i18n.
 Rust ≥ 1.99 and, on Linux, GTK 4 with development files (Windows and macOS need nothing else) –
 the same as for RUF (<https://github.com/Freya-TDE/RUF>, `docs/en/getting-started.md`).
 
-RUF comes via Git from its repository (`Cargo.toml`), inside Freya TDE as well; the
-version is pinned in `Cargo.lock`. After a new RUF version: `cargo update -p ruf -p rncl`.
+RUF comes from crates.io (`ruf`, `rncl`), inside Freya TDE as well; the version is pinned
+in `Cargo.lock`. After a new RUF version: `cargo update -p ruf -p rncl`. The release workflow takes
+the bundle scripts from the RUF repository at the tag `v<version>` of that version.
 
 ```bash
 cd CT-Editor

@@ -575,7 +575,7 @@ dependencies = [
  "gobject-sys",
  "libc",
  "system-deps 9.0.0",
- "windows-sys 0.61.2",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -1150,7 +1150,8 @@ dependencies = [
 [[package]]
 name = "rncl"
 version = "0.2.0"
-source = "git+https://github.com/Freya-TDE/RUF#92dd8eb735c9b03428f9df06a05c97a4fca4c6c3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "993cd78e00ebf865e3ee9578d6ec3dd879bcdfceac34cb5bc5eac6b72450748b"
 dependencies = [
  "ruf",
 ]
@@ -1158,7 +1159,8 @@ dependencies = [
 [[package]]
 name = "ruf"
 version = "0.2.0"
-source = "git+https://github.com/Freya-TDE/RUF#92dd8eb735c9b03428f9df06a05c97a4fca4c6c3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a64604ab6d34cab21fa7d8309ce739afc45983f45009fa25e56fe863e8e8ef89"
 dependencies = [
  "gdk4-macos",
  "gdk4-win32",

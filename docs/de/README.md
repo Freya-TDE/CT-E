@@ -186,8 +186,9 @@ alle Schlüssel vorhanden sind.
 Rust ≥ 1.99 und unter Linux GTK 4 mit Entwicklungsdateien (Windows und macOS brauchen nichts weiter) –
 wie für RUF (<https://github.com/Freya-TDE/RUF>, `docs/de/erste-schritte.md`).
 
-RUF kommt per Git aus seinem Repository (`Cargo.toml`), auch innerhalb von Freya TDE;
-der Stand steht im `Cargo.lock`. Nach einer neuen RUF-Version: `cargo update -p ruf -p rncl`.
+RUF kommt von crates.io (`ruf`, `rncl`), auch innerhalb von Freya TDE; der Stand steht im
+`Cargo.lock`. Nach einer neuen RUF-Version: `cargo update -p ruf -p rncl`. Der Release-Workflow holt
+die Bundle-Skripte aus dem RUF-Repository zum Tag `v<Version>` dieser Version.
 
 ```bash
 cd CT-Editor

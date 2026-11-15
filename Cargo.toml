@@ -24,8 +24,8 @@ path = "src/lib.rs"
 [dependencies]
 # RUF aus seinem Repository, Stand im Cargo.lock; neuer Stand: cargo update -p ruf -p rncl
 # RUF from its repository, pinned in Cargo.lock; update: cargo update -p ruf -p rncl
-ruf = { git = "https://github.com/Freya-TDE/RUF", version = "0.2.0" }
-rncl = { git = "https://github.com/Freya-TDE/RUF", version = "0.2.0" }
+ruf = "0.2.0"
+rncl = "0.2.0"
 toml_edit = "0.25.17"
 ureq = { version = "3.5.0", features = ["json"] }
 serde = { version = "1.0.229", features = ["derive"] }
