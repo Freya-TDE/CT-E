@@ -1,13 +1,13 @@
 # CT-Editor – Cargo TOML Editor
 
 **Deutsch:** Visueller Editor für `Cargo.toml`-Dateien, gebaut mit
-[RUF/RNCL](https://github.com/Dragon-InterActive/RUF) – GTK 4 auf Linux, Windows und macOS. Eigenständig
+[RUF/RNCL](https://github.com/Freya-TDE/RUF) – GTK 4 auf Linux, Windows und macOS. Eigenständig
 nutzbar (mit Menü „Datei“) oder als Teil des RAD-Tools
-[Freya TDE](https://github.com/Dragon-InterActive/Freya-TDE), das ihn als Submodul einbindet.
+[Freya TDE](https://github.com/Freya-TDE/Freya-TDE), das ihn als Submodul einbindet.
 
 **English:** A visual editor for `Cargo.toml` files, built with
-[RUF/RNCL](https://github.com/Dragon-InterActive/RUF) – GTK 4 on Linux, Windows and macOS. Usable on its own
-(with a "File" menu) or as part of the RAD tool [Freya TDE](https://github.com/Dragon-InterActive/Freya-TDE),
+[RUF/RNCL](https://github.com/Freya-TDE/RUF) – GTK 4 on Linux, Windows and macOS. Usable on its own
+(with a "File" menu) or as part of the RAD tool [Freya TDE](https://github.com/Freya-TDE/Freya-TDE),
 which includes it as a submodule.
 
 > **Mit Claude Code gebaut / Built with Claude Code** – Der CT-Editor wurde vollständig mit
@@ -36,8 +36,8 @@ cargo test                                       # Tests (Linux ohne Bildschirm 
 ```
 
 Fertige Pakete für Linux, Windows und macOS gibt es auf der
-[Release-Seite](https://github.com/Dragon-InterActive/CT-E/releases). / Ready-made packages for Linux, Windows
-and macOS are on the [release page](https://github.com/Dragon-InterActive/CT-E/releases).
+[Release-Seite](https://github.com/Freya-TDE/CT-E/releases). / Ready-made packages for Linux, Windows
+and macOS are on the [release page](https://github.com/Freya-TDE/CT-E/releases).
 
 ## Dokumentation / Documentation
 

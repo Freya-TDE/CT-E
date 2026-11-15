@@ -164,7 +164,7 @@ impl CratesIo {
     pub const USER_AGENT: &'static str = concat!(
         "ct-editor/",
         env!("CARGO_PKG_VERSION"),
-        " (Freya TDE; https://github.com/Dragon-InterActive/Freya-TDE)"
+        " (Freya TDE; https://github.com/Freya-TDE/Freya-TDE)"
     );
 
     pub fn new() -> Self {

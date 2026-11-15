@@ -7,7 +7,7 @@ conventions. Structure, rules and commands: `AGENTS.md`; manual: `docs/de`, `doc
 
 Der **CT-Editor** (Cargo TOML Editor) erstellt und bearbeitet `Cargo.toml`-Dateien mit
 einem visuellen Editor. Er ist eigenständig nutzbar und zugleich Teil des RAD-Tools
-[Freya TDE](https://github.com/Dragon-InterActive/Freya-TDE).
+[Freya TDE](https://github.com/Freya-TDE/Freya-TDE).
 
 - Er stützt sich auf Cargos eigene Mittel (`cargo metadata` zur Prüfung) und überwacht
   die TOML-Syntax; die Formatierung des Anwenders bleibt erhalten (`toml_edit`).
@@ -23,7 +23,7 @@ einem visuellen Editor. Er ist eigenständig nutzbar und zugleich Teil des RAD-T
 - **Zwei Modi aus einer Codebasis:** eigenständig mit Menü „Datei“ (Öffnen, Sprache,
   Beenden; die Sprache wird gespeichert) oder eingebettet (`--embedded`): Freya TDE
   übergibt Pfad und Sprache beim Aufruf, der Editor zeigt kein Menü.
-- **Oberfläche mit [RUF](https://github.com/Dragon-InterActive/RUF)** (GTK 4), als
+- **Oberfläche mit [RUF](https://github.com/Freya-TDE/RUF)** (GTK 4), als
   Git-Abhängigkeit; Fehlendes wird in RUF ergänzt, nicht im Editor umgangen. Die
   RUF-Skills (`.agents/skills/` im RUF-Repository) gelten auch hier.
 - Weitere Crates nur in aktuellen, stabilen Versionen und mit freier Lizenz.

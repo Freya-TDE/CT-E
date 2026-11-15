@@ -184,7 +184,7 @@ alle Schlüssel vorhanden sind.
 ### Voraussetzungen
 
 Rust ≥ 1.99 und unter Linux GTK 4 mit Entwicklungsdateien (Windows und macOS brauchen nichts weiter) –
-wie für RUF (<https://github.com/Dragon-InterActive/RUF>, `docs/de/erste-schritte.md`).
+wie für RUF (<https://github.com/Freya-TDE/RUF>, `docs/de/erste-schritte.md`).
 
 RUF kommt per Git aus seinem Repository (`Cargo.toml`), auch innerhalb von Freya TDE;
 der Stand steht im `Cargo.lock`. Nach einer neuen RUF-Version: `cargo update -p ruf -p rncl`.

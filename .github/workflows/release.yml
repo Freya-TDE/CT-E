@@ -62,10 +62,10 @@ jobs:
       - name: RUF-Stand aus Cargo.lock
         id: ruf
         shell: bash
-        run: echo "rev=$(grep -m1 -o 'Dragon-InterActive/RUF#[0-9a-f]*' Cargo.lock | cut -d'#' -f2)" >> "$GITHUB_OUTPUT"
+        run: echo "rev=$(grep -m1 -o 'Freya-TDE/RUF#[0-9a-f]*' Cargo.lock | cut -d'#' -f2)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v7
         with:
-          repository: Dragon-InterActive/RUF
+          repository: Freya-TDE/RUF
           ref: ${{ steps.ruf.outputs.rev }}
           path: ruf
       # Rust mit GNU-Host (passt zu MSYS2; das MSVC-Rust würde für das GNU-Ziel
@@ -107,10 +107,10 @@ jobs:
       - uses: actions/checkout@v7
       - name: RUF-Stand aus Cargo.lock
         id: ruf
-        run: echo "rev=$(grep -m1 -o 'Dragon-InterActive/RUF#[0-9a-f]*' Cargo.lock | cut -d'#' -f2)" >> "$GITHUB_OUTPUT"
+        run: echo "rev=$(grep -m1 -o 'Freya-TDE/RUF#[0-9a-f]*' Cargo.lock | cut -d'#' -f2)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v7
         with:
-          repository: Dragon-InterActive/RUF
+          repository: Freya-TDE/RUF
           ref: ${{ steps.ruf.outputs.rev }}
           path: ruf
       - name: GTK 4 und Werkzeuge
