@@ -25,7 +25,7 @@ einem visuellen Editor. Er ist eigenständig nutzbar und zugleich Teil des RAD-T
   übergibt Pfad und Sprache beim Aufruf, der Editor zeigt kein Menü.
 - **Oberfläche mit [RUF](https://github.com/Dragon-InterActive/RUF)** (GTK 4), als
   Git-Abhängigkeit; Fehlendes wird in RUF ergänzt, nicht im Editor umgangen. Die
-  RUF-Skills (`.claude/skills/` im RUF-Repository) gelten auch hier.
+  RUF-Skills (`.agents/skills/` im RUF-Repository) gelten auch hier.
 - Weitere Crates nur in aktuellen, stabilen Versionen und mit freier Lizenz.
 
 ## Konventionen
@@ -33,5 +33,5 @@ einem visuellen Editor. Er ist eigenständig nutzbar und zugleich Teil des RAD-T
 - Rust ≥ 1.99, Edition 2024; `cargo clippy` warnungsfrei.
 - Dokumentation mit Beispielen auf Deutsch und Englisch.
 - Die Nutzung durch KI-Assistenten mitdenken: Logik ohne Oberfläche als Bibliothek,
-  Skill in `.claude/skills/ct-editor/`.
+  Skill in `.agents/skills/ct-editor/`.
 - Lizenz: MIT OR Apache-2.0 (nach Wahl des Nutzers).

@@ -330,9 +330,9 @@ der in den Sprachdateien fehlt.
 ## Arbeiten mit KI
 
 - `AGENTS.md` fasst Regeln und Befehle für KI-Assistenten zusammen.
-- Der Skill `.claude/skills/ct-editor/SKILL.md` beschreibt typische Aufgaben
+- Der Skill `.agents/skills/ct-editor/SKILL.md` beschreibt typische Aufgaben
   (neuer Tab, neues Paketfeld, neue Sprache, Fehlersuche).
 - **Sichtprüfung ohne Bildschirm:** `ct-editor --offline --tab package --screenshot /tmp/p.png`
   bzw. `xvfb-run -a cargo run --example remote_control -- demo serde derive /tmp/d.png`
   – das Bild danach ansehen.
-- Die RUF-Skills (`.claude/skills` im RUF-Repository bzw. `../RUF` in Freya TDE) gelten auch hier.
+- Die RUF-Skills (`.agents/skills` im RUF-Repository bzw. `../RUF` in Freya TDE) gelten auch hier.

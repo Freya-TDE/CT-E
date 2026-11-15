@@ -324,9 +324,9 @@ is missing from the language files.
 ## Working with AI
 
 - `AGENTS.md` summarises rules and commands for AI assistants.
-- The skill `.claude/skills/ct-editor/SKILL.md` describes typical tasks (new tab, new
+- The skill `.agents/skills/ct-editor/SKILL.md` describes typical tasks (new tab, new
   package field, new language, debugging).
 - **Visual check without a screen:** `ct-editor --offline --tab package --screenshot /tmp/p.png`
   or `xvfb-run -a cargo run --example remote_control -- demo serde derive /tmp/d.png en`
   – then look at the image.
-- The RUF skills (`.claude/skills` in the RUF repository, `../RUF` inside Freya TDE) apply here as well.
+- The RUF skills (`.agents/skills` in the RUF repository, `../RUF` inside Freya TDE) apply here as well.

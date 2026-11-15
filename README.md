@@ -43,7 +43,7 @@ and macOS are on the [release page](https://github.com/Dragon-InterActive/CT-E/r
 
 - 🇩🇪 [Handbuch](docs/de/README.md)
 - 🇬🇧 [Manual](docs/en/README.md)
-- KI / AI: [`AGENTS.md`](AGENTS.md), [`.claude/skills/ct-editor`](.claude/skills/ct-editor/SKILL.md)
+- KI / AI: [`AGENTS.md`](AGENTS.md), [`.agents/skills/ct-editor`](.agents/skills/ct-editor/SKILL.md)
 
 ## Lizenz / License
 

@@ -1,8 +1,8 @@
 # AGENTS.md – Hinweise für KI-Assistenten
 
 Projektziel und Vorgaben: `CLAUDE.md`. Handbuch: `docs/de/README.md` / `docs/en/README.md`.
-Ausführliche Anleitung: `.claude/skills/ct-editor/SKILL.md`. Für die UI-Bibliothek gelten
-zusätzlich die RUF-Skills (`.claude/skills/`) und `AGENTS.md` von RUF (https://github.com/Dragon-InterActive/RUF; in Freya TDE unter `../RUF/`).
+Ausführliche Anleitung: `.agents/skills/ct-editor/SKILL.md`. Für die UI-Bibliothek gelten
+zusätzlich die RUF-Skills (`.agents/skills/`) und `AGENTS.md` von RUF (https://github.com/Dragon-InterActive/RUF; in Freya TDE unter `../RUF/`).
 RUF ist eine Git-Abhängigkeit (auch in Freya TDE), der Stand steht im `Cargo.lock`. Neue RUF-Funktionen erst
 in RUF committen und pushen, dann hier `cargo update -p ruf -p rncl`.
 
