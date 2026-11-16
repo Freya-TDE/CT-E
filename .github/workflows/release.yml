@@ -196,3 +196,22 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -am "ct-editor ${tag#v}"
           git push
+
+  # Den Katalog neu bauen lassen (DS-Catalog, Workflow „Katalog“). Braucht das
+  # Secret CATALOG_TOKEN (Contents read/write auf Dragon-InterActive/DS-Catalog).
+  # Ask DS-Catalog to rebuild the catalog; needs the secret CATALOG_TOKEN.
+  catalog:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: release
+    runs-on: ubuntu-24.04
+    env:
+      CATALOG_TOKEN: ${{ secrets.CATALOG_TOKEN }}
+    steps:
+      - name: Katalog anstoßen
+        if: env.CATALOG_TOKEN != ''
+        run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $CATALOG_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/Dragon-InterActive/DS-Catalog/dispatches \
+            -d "{\"event_type\":\"release\",\"client_payload\":{\"program\":\"ct-editor\",\"version\":\"${GITHUB_REF_NAME#v}\"}}"
