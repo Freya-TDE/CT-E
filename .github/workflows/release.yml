@@ -151,3 +151,41 @@ jobs:
         with:
           files: packages/*
           generate_release_notes: true
+
+  # Homebrew-Formel im Tap Freya-TDE/homebrew-tap auf die neue Version setzen
+  # (Adresse und SHA-256 des Quell-Archivs). Braucht das Secret
+  # HOMEBREW_TAP_TOKEN: ein Fine-grained Token mit "Contents: Read and write"
+  # nur für Freya-TDE/homebrew-tap. Ohne Secret wird der Schritt übersprungen.
+  # Update the Homebrew formula in Freya-TDE/homebrew-tap (URL and SHA-256 of the
+  # source archive). Needs the secret HOMEBREW_TAP_TOKEN (fine-grained token,
+  # "Contents: Read and write" on Freya-TDE/homebrew-tap only); skipped without it.
+  homebrew:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: release
+    runs-on: ubuntu-24.04
+    env:
+      TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+    steps:
+      - name: Token vorhanden?
+        id: token
+        run: echo "present=${{ env.TAP_TOKEN != '' }}" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v7
+        if: steps.token.outputs.present == 'true'
+        with:
+          repository: Freya-TDE/homebrew-tap
+          token: ${{ env.TAP_TOKEN }}
+          path: tap
+      - name: Formel aktualisieren
+        if: steps.token.outputs.present == 'true'
+        run: |
+          tag=${GITHUB_REF_NAME}
+          url="https://github.com/${GITHUB_REPOSITORY}/archive/refs/tags/${tag}.tar.gz"
+          sha=$(curl -sSLf "$url" | sha256sum | cut -d' ' -f1)
+          formula=tap/Formula/ct-editor.rb
+          sed -i -E "s|^  url \".*\"|  url \"${url}\"|; s|^  sha256 \".*\"|  sha256 \"${sha}\"|" "$formula"
+          cd tap
+          if git diff --quiet; then echo "Formel ist schon aktuell"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "ct-editor ${tag#v}"
+          git push
