@@ -36,15 +36,22 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Bauen
         run: cargo build --release --locked
+      # Aufbau wie unter /usr (bin/, share/): passt für den DS-Launcher
+      # (/opt/dragon-software/ct-editor) und für ein AUR-Paket ct-editor-bin.
+      # Layout like /usr (bin/, share/): fits the DS-Launcher and ct-editor-bin.
       - name: Paket
         run: |
           version=$(cargo pkgid | sed 's/.*[#@]//')
           dir=ct-editor-$version-linux-x86_64
-          mkdir -p $dir/icons
-          cp target/release/ct-editor README.md LICENSE-MIT LICENSE-APACHE $dir/
-          cp -r docs $dir/
-          cp assets/icons/*.png assets/ct-editor.svg $dir/icons/
-          cp assets/ct-editor.desktop $dir/
+          install -Dm755 target/release/ct-editor $dir/bin/ct-editor
+          install -Dm644 assets/ct-editor.desktop $dir/share/applications/ct-editor.desktop
+          for icon in assets/icons/ct-editor-*.png; do
+            size=${icon##*-}; size=${size%.png}
+            install -Dm644 $icon $dir/share/icons/hicolor/${size}x${size}/apps/ct-editor.png
+          done
+          install -Dm644 assets/ct-editor.svg $dir/share/icons/hicolor/scalable/apps/ct-editor.svg
+          mkdir -p $dir/share/doc/ct-editor
+          cp -r README.md LICENSE-MIT LICENSE-APACHE docs $dir/share/doc/ct-editor/
           tar czf $dir.tar.gz $dir
           echo "PACKAGE=$dir.tar.gz" >> "$GITHUB_ENV"
       - uses: actions/upload-artifact@v7
