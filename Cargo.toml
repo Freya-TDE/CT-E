@@ -24,8 +24,8 @@ path = "src/lib.rs"
 [dependencies]
 # RUF von crates.io, Stand im Cargo.lock; neuer Stand: cargo update -p ruf -p rncl
 # RUF from crates.io, pinned in Cargo.lock; update: cargo update -p ruf -p rncl
-ruf = "0.2.1"
-rncl = "0.2.1"
+ruf = "0.3.0"
+rncl = "0.3.0"
 toml_edit = "0.25.17"
 ureq = { version = "3.5.0", features = ["json"] }
 serde = { version = "1.0.229", features = ["derive"] }
