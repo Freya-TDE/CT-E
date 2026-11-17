@@ -1,0 +1,34 @@
+# Maintainer: Dragon Software
+#
+# AUR-Paket ct-editor-bin: das fertige Linux-Archiv aus den GitHub-Releases.
+# Der Release-Workflow setzt pkgver und sha256sums und schiebt das Paket ins
+# AUR (Job `aur`). Von Hand prüfen: `makepkg -si` in diesem Ordner.
+# AUR package ct-editor-bin: the prebuilt Linux archive from the GitHub releases.
+
+pkgname=ct-editor-bin
+pkgver=0.4.1
+pkgrel=1
+pkgdesc='Visual editor for Cargo.toml files (GTK 4)'
+arch=('x86_64')
+url='https://github.com/Freya-TDE/CT-E'
+license=('MIT OR Apache-2.0')
+depends=('gtk4>=4.12' 'gtksourceview5' 'glib2' 'pango' 'cairo' 'graphene' 'glibc' 'gcc-libs'
+         'hicolor-icon-theme')
+provides=('ct-editor')
+conflicts=('ct-editor')
+source=("https://github.com/Freya-TDE/CT-E/releases/download/v${pkgver}/ct-editor-${pkgver}-linux-x86_64.tar.gz")
+sha256sums=('3e0902fc8869e68efd8931de25227a3f57c9e736023f6d77aac996d4dbf78c2b')
+
+package() {
+  cd "ct-editor-${pkgver}-linux-x86_64"
+  install -Dm755 bin/ct-editor "${pkgdir}/usr/bin/ct-editor"
+  install -Dm644 share/applications/ct-editor.desktop \
+    "${pkgdir}/usr/share/applications/ct-editor.desktop"
+  for icon in share/icons/hicolor/*/apps/ct-editor.*; do
+    install -Dm644 "${icon}" "${pkgdir}/usr/${icon}"
+  done
+  install -dm755 "${pkgdir}/usr/share/doc/ct-editor"
+  cp -r --no-preserve=ownership share/doc/ct-editor/. "${pkgdir}/usr/share/doc/ct-editor/"
+  install -Dm644 share/doc/ct-editor/LICENSE-MIT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE-MIT"
+  install -Dm644 share/doc/ct-editor/LICENSE-APACHE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE-APACHE"
+}

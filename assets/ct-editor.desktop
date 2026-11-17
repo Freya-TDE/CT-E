@@ -7,6 +7,7 @@ Comment=Visual editor for Cargo.toml files
 Comment[de]=Visueller Editor für Cargo.toml-Dateien
 Exec=ct-editor %f
 Icon=ct-editor
+StartupWMClass=ct-editor
 Terminal=false
 Categories=Development;
 Keywords=Rust;Cargo;TOML;Crates;

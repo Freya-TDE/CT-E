@@ -300,6 +300,13 @@ everything to a GitHub release. Started by hand (Actions → Release → Run wor
 builds; the packages are then artifacts of the run. The GTK runtime scripts come from RUF,
 at the version in `Cargo.lock`.
 
+After the release the workflow updates the Homebrew formula (secret `HOMEBREW_TAP_TOKEN`) and
+the AUR package `ct-editor-bin` (secret `AUR_SSH_KEY`, the AUR account's private SSH key) and
+triggers the DS catalog (secret `CATALOG_TOKEN`); a missing secret skips its step. The AUR
+package template is `packaging/aur/PKGBUILD` (installs the Linux archive into `/usr`; check
+by hand with `makepkg -si` in that folder). On Arch Linux: `yay -S ct-editor-bin` or
+`paru -S ct-editor-bin`.
+
 **First start on macOS:** the program is not notarized by Apple; since macOS 15
 right-click → Open is no longer enough. Choose "Done" in the message, then *System
 Settings → Privacy & Security → "Open Anyway"* (once), or run

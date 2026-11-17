@@ -305,6 +305,13 @@ ein GitHub-Release. Von Hand gestartet (Actions → Release → Run workflow) ba
 Pakete liegen dann als Artefakte am Lauf. Die Skripte für die GTK-Laufzeit kommen aus RUF,
 vom Stand im `Cargo.lock`.
 
+Nach dem Release setzt der Workflow die Homebrew-Formel (Secret `HOMEBREW_TAP_TOKEN`) und das
+AUR-Paket `ct-editor-bin` (Secret `AUR_SSH_KEY`, privater SSH-Schlüssel des AUR-Kontos) auf
+die neue Version und stößt den DS-Katalog an (Secret `CATALOG_TOKEN`); fehlt ein Secret,
+entfällt der Schritt. Vorlage des AUR-Pakets: `packaging/aur/PKGBUILD` (installiert das
+Linux-Archiv nach `/usr`; von Hand prüfen mit `makepkg -si` in diesem Ordner). Unter Arch
+Linux: `yay -S ct-editor-bin` bzw. `paru -S ct-editor-bin`.
+
 **Erster Start unter macOS:** Das Programm ist nicht von Apple notarisiert; seit macOS 15
 genügt Rechtsklick → Öffnen nicht mehr. Nach der Meldung „Fertig“ wählen, dann
 *Systemeinstellungen → Datenschutz & Sicherheit → „Dennoch öffnen“* (einmalig), oder im

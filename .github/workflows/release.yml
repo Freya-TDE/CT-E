@@ -197,6 +197,56 @@ jobs:
           git commit -am "ct-editor ${tag#v}"
           git push
 
+  # AUR-Paket ct-editor-bin auf die neue Version setzen und hochladen
+  # (packaging/aur/PKGBUILD: pkgver, pkgrel=1, sha256sums, .SRCINFO). Braucht
+  # das Secret AUR_SSH_KEY: den privaten SSH-Schlüssel, dessen öffentlicher
+  # Teil im AUR-Konto hinterlegt ist. Ohne Secret wird der Schritt übersprungen.
+  # Update and push the AUR package ct-editor-bin; needs the secret AUR_SSH_KEY
+  # (private SSH key registered in the AUR account), skipped without it.
+  aur:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: release
+    runs-on: ubuntu-24.04
+    container: archlinux:base-devel
+    env:
+      AUR_SSH_KEY: ${{ secrets.AUR_SSH_KEY }}
+    steps:
+      - name: Schlüssel vorhanden?
+        id: key
+        run: echo "present=${{ env.AUR_SSH_KEY != '' }}" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v7
+        if: steps.key.outputs.present == 'true'
+      - name: PKGBUILD aktualisieren und ins AUR schieben
+        if: steps.key.outputs.present == 'true'
+        run: |
+          pacman -Syu --noconfirm --needed git openssh
+          version=${GITHUB_REF_NAME#v}
+          asset="ct-editor-${version}-linux-x86_64.tar.gz"
+          url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${GITHUB_REF_NAME}/${asset}"
+          sha=$(curl -sSLf "$url" | sha256sum | cut -d' ' -f1)
+          pkgbuild=packaging/aur/PKGBUILD
+          sed -i -E "s/^pkgver=.*/pkgver=${version}/; s/^pkgrel=.*/pkgrel=1/; s/^sha256sums=.*/sha256sums=('${sha}')/" "$pkgbuild"
+          # makepkg läuft nicht als root.
+          useradd -m builder
+          install -d -o builder aur-work
+          cp "$pkgbuild" aur-work/
+          chown builder aur-work/PKGBUILD
+          (cd aur-work && su builder -c "makepkg --printsrcinfo > .SRCINFO")
+          install -dm700 ~/.ssh
+          printf '%s\n' "$AUR_SSH_KEY" > ~/.ssh/aur
+          chmod 600 ~/.ssh/aur
+          ssh-keyscan -t ed25519,rsa aur.archlinux.org >> ~/.ssh/known_hosts
+          export GIT_SSH_COMMAND="ssh -i ~/.ssh/aur -o IdentitiesOnly=yes"
+          git clone ssh://aur@aur.archlinux.org/ct-editor-bin.git aur-repo
+          cp aur-work/PKGBUILD aur-work/.SRCINFO aur-repo/
+          cd aur-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add PKGBUILD .SRCINFO
+          if git diff --cached --quiet; then echo "AUR ist schon aktuell"; exit 0; fi
+          git commit -m "ct-editor-bin ${version}"
+          git push origin HEAD:master
+
   # Den Katalog neu bauen lassen (DS-Catalog, Workflow „Katalog“). Braucht das
   # Secret CATALOG_TOKEN (Contents read/write auf Dragon-InterActive/DS-Catalog).
   # Ask DS-Catalog to rebuild the catalog; needs the secret CATALOG_TOKEN.
