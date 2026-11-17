@@ -1,7 +1,7 @@
 [package]
 name = "ct-editor"
 description = "CT-Editor – visueller Editor für Cargo.toml-Dateien, Teil des RAD-Tools Freya TDE"
-version = "0.4.1"
+version = "0.4.2"
 edition = "2024"
 rust-version = "1.99"
 license = "MIT OR Apache-2.0"
@@ -24,8 +24,8 @@ path = "src/lib.rs"
 [dependencies]
 # RUF von crates.io, Stand im Cargo.lock; neuer Stand: cargo update -p ruf -p rncl
 # RUF from crates.io, pinned in Cargo.lock; update: cargo update -p ruf -p rncl
-ruf = "0.3.0"
-rncl = "0.3.0"
+ruf = "0.3.1"
+rncl = "0.3.1"
 toml_edit = "0.25.17"
 ureq = { version = "3.5.0", features = ["json"] }
 serde = { version = "1.0.229", features = ["derive"] }

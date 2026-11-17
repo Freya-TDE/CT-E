@@ -235,7 +235,7 @@ dependencies = [
 
 [[package]]
 name = "ct-editor"
-version = "0.4.1"
+version = "0.4.2"
 dependencies = [
  "clap",
  "embed-resource",
@@ -1149,18 +1149,18 @@ dependencies = [
 
 [[package]]
 name = "rncl"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4d9cc8aef2d429a7002af0c0ddcc688428ed16261a64c568f24d9dc715f4da5d"
+checksum = "f6be1866528e3b60574b42469ecef7629acbae8575a5d72d2c050b1a54d8fdba"
 dependencies = [
  "ruf",
 ]
 
 [[package]]
 name = "ruf"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ea7d60ee9a1fdd051bb28d01db2406eabcf2352b34d6bfc25462d8d4230a16eb"
+checksum = "895f2f9439a9004e261357a6e8450f8a9347c13d00f18ea1c80813b84e869eed"
 dependencies = [
  "gdk4-macos",
  "gdk4-win32",
