@@ -30,7 +30,14 @@ fn cargo() -> String {
 
 /// Prüft die `Cargo.toml` unter `manifest_path` (blockierend).
 pub fn check_manifest(manifest_path: &Path) -> CheckResult {
-    let output = Command::new(cargo())
+    let mut command = Command::new(cargo());
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        // Kein Konsolenfenster aufblitzen lassen (der CT-Editor hat keine Konsole).
+        command.creation_flags(0x0800_0000);
+    }
+    let output = command
         .args([
             "metadata",
             "--no-deps",
