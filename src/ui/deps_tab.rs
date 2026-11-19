@@ -237,7 +237,11 @@ impl DepsTab {
         if self.target.items() != targets {
             self.target.set_items(&targets);
         }
-        self.target.set_current_text(&current);
+        // Nur bei Abweichung setzen: das läuft bei jeder Eingabe, und unter
+        // Windows springt der Cursor beim Setzen an den Anfang (Text lief rückwärts).
+        if self.target.current_text() != current {
+            self.target.set_current_text(&current);
+        }
 
         let table = self.current_table();
         self.list_label
