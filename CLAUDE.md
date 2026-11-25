@@ -19,7 +19,7 @@ einem visuellen Editor. Er ist eigenständig nutzbar und zugleich Teil des RAD-T
 
 ## Anforderungen
 
-- **Mehrsprachig (i18n):** alle Texte in `locales/<sprache>.toml`.
+- **Mehrsprachig (i18n):** alle Texte in `locales/<sprache>.toml`; die Technik ist seit RUF 0.4 `ruf::i18n` (`src/i18n.rs` meldet die eingebetteten Texte dort an, `crate::tr!` bleibt).
 - **Zwei Modi aus einer Codebasis:** eigenständig mit Menü „Datei“ (Öffnen, Sprache,
   Beenden; die Sprache wird gespeichert) oder eingebettet (`--embedded`): Freya TDE
   übergibt Pfad und Sprache beim Aufruf, der Editor zeigt kein Menü.
