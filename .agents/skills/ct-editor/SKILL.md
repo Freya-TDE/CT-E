@@ -1,77 +1,77 @@
 ---
 name: ct-editor
-description: Den CT-Editor (Cargo-TOML-Editor von Freya TDE) erweitern oder Fehler darin suchen – neue Tabs, Paketfelder, Manifest-Funktionen, Übersetzungen, crates.io-Anbindung, GUI-Tests und Screenshots. Verwenden bei Arbeiten im Ordner CT-Editor oder wenn Freya TDE Cargo.toml-Dateien bearbeiten soll.
+description: Extend the CT-Editor (Cargo TOML editor of Freya TDE) or look for bugs in it – new tabs, package fields, manifest functions, translations, crates.io connection, GUI tests and screenshots. Use when working in the CT-Editor folder or when Freya TDE is to edit Cargo.toml files.
 ---
 
-# CT-Editor erweitern
+# Extending the CT-Editor
 
-Erst `AGENTS.md` lesen (Regeln), dann das passende Rezept. UI-Grundlagen: RUF-Skill `ruf-app`.
+Read `AGENTS.md` first (rules), then the matching recipe. UI basics: RUF skill `ruf-app`.
 
-## Wo gehört was hin?
+## What goes where?
 
-| Aufgabe | Datei | Test |
+| Task | File | Test |
 |---|---|---|
-| Manifest lesen/ändern (neue Abschnitte, Schreibweisen) | `src/manifest.rs` | Unit-Test im selben Modul |
-| Feature-Logik | `src/features.rs` | Unit-Test |
-| crates.io / andere Registry | `src/crates_io.rs` (`CrateSource`) | Unit-Test + `#[ignore]`-Livetest |
-| Text in der Oberfläche | `locales/de.toml` **und** `locales/en.toml` | `cargo test --lib i18n` |
-| Widgets, Layout, Bedienung | `src/ui/<tab>.rs` | `tests/gui.rs` |
-| Startoptionen | `src/cli.rs` | Unit-Test |
+| Read/change the manifest (new sections, notations) | `src/manifest.rs` | unit test in the same module |
+| Feature logic | `src/features.rs` | unit test |
+| crates.io / other registry | `src/crates_io.rs` (`CrateSource`) | unit test + `#[ignore]` live test |
+| Text in the user interface | `locales/de.toml` **and** `locales/en.toml` (`ruf::i18n`) | `cargo test --lib i18n` |
+| Widgets, layout, operation | `src/ui/<tab>.rs` | `tests/gui.rs` |
+| Start options | `src/cli.rs` | unit test |
 
-## Rezept: neues `[package]`-Feld
+## Recipe: new `[package]` field
 
-1. Eintrag in `PACKAGE_FIELDS` (`src/manifest.rs`) mit passendem `FieldKind`.
-2. Tooltip `package.field.<key>` in beiden `locales/*.toml`.
-3. Fertig – Formular, Laden und Speichern sind generisch (`package_tab.rs`).
-   Test `package_field_tooltips_exist` prüft die Übersetzung.
+1. Entry in `PACKAGE_FIELDS` (`src/manifest.rs`) with a matching `FieldKind`.
+2. Tooltip `package.field.<key>` in both `locales/*.toml`.
+3. Done – form, loading and saving are generic (`package_tab.rs`).
+   The test `package_field_tooltips_exist` checks the translation.
 
-## Rezept: neue Abschnittsvorlage (Tab "Erweitert")
+## Recipe: new section template (tab "Advanced")
 
-`SECTION_TEMPLATES` in `src/manifest.rs` ergänzen: `("schluessel", "[toml]\n…")`.
-Der Test `sections` prüft, dass jede Vorlage gültiges TOML ergibt.
+Extend `SECTION_TEMPLATES` in `src/manifest.rs`: `("key", "[toml]\n…")`.
+The test `sections` checks that every template yields valid TOML.
 
-## Rezept: neuer Tab
+## Recipe: new tab
 
-1. `src/ui/neu_tab.rs` nach Vorbild `features_tab.rs`: `pub struct NeuTab { pub page: RnclPanel, … }`
-   mit `build(page)`, `layout(w, h)`, `refresh(&State)` und `pub fn connect(shared: &Rc<Shared>)`.
-2. In `ui/mod.rs`: `pub mod`, Feld in `Shared`, `NeuTab::build(&tabs.add_tab(&tr!("tab.neu")))`,
-   `neu_tab::connect(&shared)`, `Origin::Neu`, Eintrag in `Shared::refresh`.
-3. `cli::Tab` um die Variante ergänzen (Reihenfolge = Tab-Index).
-4. Texte in beiden Sprachdateien, Dateiliste im i18n-Test `every_used_key_exists` ergänzen.
-5. GUI-Test in `tests/gui.rs` (Funktion **und** Eintrag in der `tests`-Liste).
+1. `src/ui/new_tab.rs` modelled on `features_tab.rs`: `pub struct NewTab { pub page: RnclPanel, … }`
+   with `build(page)`, `layout(w, h)`, `refresh(&State)` and `pub fn connect(shared: &Rc<Shared>)`.
+2. In `ui/mod.rs`: `pub mod`, field in `Shared`, `NewTab::build(&tabs.add_tab(&tr!("tab.new")))`,
+   `new_tab::connect(&shared)`, `Origin::New`, entry in `Shared::refresh`.
+3. Add the variant to `cli::Tab` (order = tab index).
+4. Texts in both language files; add the file to the list in the i18n test `every_used_key_exists`.
+5. GUI test in `tests/gui.rs` (function **and** entry in the `tests` list).
 
-Muster in `connect`:
+Pattern in `connect`:
 
 ```rust
 tab.button.on_clicked(weak0(shared, |s| {
-    s.modify(Origin::Neu, |m| { /* Manifest ändern */ });
-    s.quietly(|state| s.neu.refresh(state));          // eigenen Tab nachziehen
-    s.set_status(StatusKind::Success, &tr!("neu.done"));
+    s.modify(Origin::New, |m| { /* change the manifest */ });
+    s.quietly(|state| s.new.refresh(state));          // update the own tab
+    s.set_status(StatusKind::Success, &tr!("new.done"));
 }));
 tab.field.on_text_changed(weak1(shared, |s, text: String| { /* … */ }));
 ```
 
-## Rezept: Hintergrundarbeit (Netzwerk, Prozesse)
+## Recipe: background work (network, processes)
 
-Vorbild `deps_tab.rs` (`start_search` / `on_search_reply`): Generationszähler erhöhen,
-`std::thread::spawn`, Ergebnis per `GuiSender` (in `connect` angelegt, in einer
-`OnceCell` im Tab gespeichert) zurück, im Handler Generation vergleichen.
+Model `deps_tab.rs` (`start_search` / `on_search_reply`): increase the generation counter,
+`std::thread::spawn`, send the result back via `GuiSender` (created in `connect`, stored in a
+`OnceCell` in the tab), compare the generation in the handler.
 
-## Prüfen
+## Checking
 
 ```bash
 cargo clippy --all-targets && cargo test
-./target/debug/ct-editor --offline --lang de --path /tmp/demo --tab <tab> --screenshot /tmp/ct.png
+./target/debug/ct-editor --offline --lang en --path /tmp/demo --tab <tab> --screenshot /tmp/ct.png
 xvfb-run -a cargo run --example remote_control -- /tmp/demo serde derive /tmp/d.png
 ```
 
-Bild ansehen: Überlappungen, abgeschnittene Texte, leere Bereiche. Bei Layoutproblemen
-die `layout(w, h)`-Funktion des Tabs prüfen (absolute Positionen, Mindestgrößen per `clamp`).
+Look at the image: overlaps, cut-off texts, empty areas. For layout problems check the tab's
+`layout(w, h)` function (absolute positions, minimum sizes via `clamp`).
 
-## Fallstricke
+## Pitfalls
 
-- Signale feuern auch bei `set_text`/`set_items` → Endlosschleifen oder überschriebene
-  Eingaben, wenn ein Handler nicht über `weak1` läuft bzw. nicht `quietly` befüllt wird.
-- `RnclComboBox`: Text setzen mit `set_current_text`, nicht `set_text`.
-- Während eines Syntaxfehlers im Quelltext ignoriert `modify` alle Änderungen (Absicht).
-- Feature-Reihenfolge im Manifest bleibt erhalten (`apply_selection`) – Tests danach ausrichten.
+- Signals also fire on `set_text`/`set_items` → endless loops or overwritten input if a
+  handler does not run through `weak1` or the tab is not filled `quietly`.
+- `RnclComboBox`: set the text with `set_current_text`, not `set_text`.
+- While the source has a syntax error, `modify` ignores all changes (on purpose).
+- The feature order in the manifest is kept (`apply_selection`) – align tests with that.
